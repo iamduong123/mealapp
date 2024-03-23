@@ -48,7 +48,8 @@ export default function RecipesCard({ index, navigation, item }) {
           height: hp(20),
           borderBottomLeftRadius: 35,
           borderBottomRightRadius: 35,
-          backgroundColor: "rgba(0, 0, 0, 0.9)", // Black with some transparency
+          // backgroundColor: "rgba(0, 0, 0, 0.9)", 
+          flex: 1,
         }}
       />
 

@@ -17,6 +17,7 @@ import {
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
 import Loading from "../components/Loading";
+import axios from "axios";
 
 import Animated, { FadeInDown } from "react-native-reanimated";
 
@@ -34,18 +35,18 @@ export default function RecipeDetailsScreen(props) {
   });
 
   const getMealData = async (id) => {
-    // try {
-    //   const response = await axios.get(
-    //     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-    //   );
+    try {
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+      );
 
-    //   if (response && response.data) {
-    //     setMeal(response.data.meals[0]);
-    //     setIsLoading(false);
-    //   }
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+      if (response && response.data) {
+        setMeal(response.data.meals[0]);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const ingredientsIndexes = (meal) => {

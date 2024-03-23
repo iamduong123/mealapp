@@ -2,7 +2,8 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
 import { CATEGORIES, MEALS } from "../data/dummy-data";
 import Button from '../components/Button'
-export default function MealList({ navigation, route }) {
+
+export default function RecipeListScreen({ navigation, route }) {
   const data = route.params.data;
   const category=CATEGORIES.find((cat) => cat.id === data);
   const meal =[];

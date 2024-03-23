@@ -14,7 +14,8 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Categories from "../components/Categories";
-import {CATEGORIES} from "../data/dummy-data"
+import axios from "axios";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import Recipes from "../components/Recipes";
 
 export default function HomeScreen() {
@@ -33,33 +34,32 @@ export default function HomeScreen() {
     setMeals([]);
   };
 
-  const getCategories = async () => 
-  {}
-  //   try {
-  //     const response = await axios.get(
-  //       "https://www.themealdb.com/api/json/v1/1/categories.php"
-  //     );
-  //     if (response && response.data) {
-  //       setCategories(response.data.categories);
-  //       console.log(response.data.categories);
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(
+        "https://www.themealdb.com/api/json/v1/1/categories.php"
+      );
+      if (response && response.data) {
+        setCategories(response.data.categories);
+        console.log(response.data.categories);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-  const getRecipes = async (category = "Beef") => {}
-  //   try {
-  //     const response = await axios.get(
-  //       `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
-  //     );
-  //     if (response && response.data) {
-  //       setMeals(response.data.meals);
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const getRecipes = async (category = "Beef") => {
+    try {
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      if (response && response.data) {
+        setMeals(response.data.meals);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <View className="flex-1 bg-white">

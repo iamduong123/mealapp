@@ -1,8 +1,9 @@
 import { favorites } from "../data/favorites";
 import React from "react";
 import Button from "../components/Button";
+
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-export default function Favorites({navigation}) {
+export default function FavoritesScreen({navigation}) {
   return (
     <View style={styles.container}>
       {/* <Text style={styles.text}>Favorites</Text> */}
