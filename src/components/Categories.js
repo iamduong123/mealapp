@@ -13,23 +13,23 @@ export default function Categories({
         paddingHorizontal: 15,
       }}
     >
-      {categories.map((category, index) => {
-        let isActive = category.strCategory === activeCategory;
-        let activeButtonStyle = isActive ? { backgroundColor: "white" } : { backgroundColor: "purple" };
+      {categories.map((category) => {
+        let isActive = category === activeCategory;
+        let activeButtonStyle = isActive ? { backgroundColor: "black" } : { backgroundColor: "purple" };
 
         return (
           <TouchableOpacity
-            key={index}
-            onPress={() => handleChangeCategory(category.strCategory)}
+            key={category.id}
+            onPress={() => handleChangeCategory(category)}
             style={{ alignItems: "center", marginBottom: 10 }}
           >
             <View style={[styles.categoryButton, activeButtonStyle]}>
               <Image
-                source={{ uri: category.strCategoryThumb }}
+                source={{ uri: category.image }} // Assuming 'image' property exists in your Category model
                 style={styles.categoryImage}
               />
             </View>
-            <Text style={styles.categoryText}>{category.strCategory}</Text>
+            <Text style={styles.categoryText}>{category.name}</Text>
           </TouchableOpacity>
         );
       })}

@@ -1,43 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, SafeAreaView } from "react-native";
-import axios from "axios";
+import { View, ScrollView, SafeAreaView, TouchableOpacity, StyleSheet } from "react-native";
 import RecipeCard from "../components/RecipesCard";
+import { MEALS } from "../data/dummy-data"; // Importing the MEALS array
+import { useNavigation } from '@react-navigation/native';
 
 export default function RecipeListScreen({ route }) {
   const { category } = route.params;
   const [meals, setMeals] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    getRecipes(category);
+    getRecipes(category.id); // Pass the category id for filtering
   }, [category]);
 
-  const getRecipes = async (category) => {
-    try {
-      const response = await axios.get(
-        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
-      );
-      if (response && response.data) {
-        setMeals(response.data.meals);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  const getRecipes = (categoryId) => {
+    // Filter meals based on the category id
+    const filteredMeals = MEALS.filter((meal) => meal.categoryIds.includes(categoryId));
+    setMeals(filteredMeals);
+  };
+
+  const handleRecipePress = (mealId) => {
+    navigation.navigate('RecipeDetails', { mealId });
   };
 
   return (
-    <View className="flex-1 bg-white">
-      <SafeAreaView>
+    <View style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: 50,
-          }}
-          className="space-y-6 pt-14"
+          contentContainerStyle={styles.scrollViewContent}
         >
-          {/* Render Meals using MealItem component */}
+          {/* Render Meals using RecipeCard component */}
           <View>
             {meals.map((meal) => (
-              <RecipeCard key={meal.idMeal} meal={meal} />
+              <TouchableOpacity key={meal.id} onPress={() => handleRecipePress(meal.id)}>
+                <RecipeCard meal={meal} />
+              </TouchableOpacity>
             ))}
           </View>
         </ScrollView>
@@ -45,3 +43,15 @@ export default function RecipeListScreen({ route }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+});

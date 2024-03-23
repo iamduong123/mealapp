@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, SafeAreaView, Image, TextInput, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Categories from "../components/Categories";
-import axios from "axios";
+import { CATEGORIES } from "../data/dummy-data"; // Importing the CATEGORIES array
 import Button from "../components/Button";
 
 export default function HomeScreen({ navigation }) {
-  const [activeCategory, setActiveCategory] = useState("Beef");
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  const getCategories = async () => {
-    try {
-      const response = await axios.get(
-        "https://www.themealdb.com/api/json/v1/1/categories.php"
-      );
-      if (response && response.data) {
-        setCategories(response.data.categories);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]); // Initialize with the first category
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
@@ -48,37 +30,31 @@ export default function HomeScreen({ navigation }) {
       />
       <StatusBar style="dark" />
 
-      <SafeAreaView>
-        {/* Button to navigate to FavoriteScreen */}
-        
+      {/* Button to navigate to FavoriteScreen */}
+      <TouchableOpacity onPress={navigateToFavoriteScreen}>
+        <Button>Go to Favorites</Button>
+      </TouchableOpacity>
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: 50,
-            paddingTop: 20,
-          }}
-        >
-          {/* Headlines */}
-          <View style={{ marginLeft: 20, marginVertical: 30 }}>
-            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#333' }}>Fast & Delicious</Text>
-            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#333' }}>Food You <Text style={{ color: 'purple' }}>Love</Text></Text>
-          </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 50,
+          paddingTop: 20,
+        }}
+      >
+        {/* Headlines */}
+        <View style={{ marginLeft: 20, marginVertical: 30 }}>
+          <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#333' }}>Fast & Delicious</Text>
+          <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#333' }}>Food You <Text style={{ color: 'purple' }}>Love</Text></Text>
+        </View>
 
-          <Button onPress={navigateToFavoriteScreen} />
-          {/* Categories */}
-          <View>
-            {categories.length > 0 && (
-              <Categories
-                categories={categories}
-                activeCategory={activeCategory}
-                handleChangeCategory={handleChangeCategory}
-              />
-            )}
-          </View>
-          
-        </ScrollView>
-      </SafeAreaView>
+        {/* Categories */}
+        <Categories
+          categories={CATEGORIES}
+          activeCategory={activeCategory}
+          handleChangeCategory={handleChangeCategory}
+        />
+      </ScrollView>
     </View>
   );
 }

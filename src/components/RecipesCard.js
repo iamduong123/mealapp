@@ -1,22 +1,54 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
+// RecipeCard.js
 
-export default function RecipeCard({ meal }) {
+import React from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
+
+const RecipeCard = ({ meal }) => {
   return (
-    <View key={meal.idMeal} className="flex-row items-center mx-4 my-2 p-4 border rounded-xl">
-      <Image
-        source={{ uri: meal.strMealThumb }}
-        style={{
-          width: 100,
-          height: 100,
-          resizeMode: "cover",
-          marginRight: 20,
-        }}
-      />
-      <View>
-        <Text style={{ fontSize: 15, fontWeight: "bold" }}>{meal.strMeal}</Text>
-        <Text>{meal.strCategory}</Text>
+    <View style={styles.container}>
+      <Image source={{ uri: meal.imageUrl }} style={styles.image} />
+      <View style={styles.detailsContainer}>
+        <Text style={styles.title}>{meal.title}</Text>
+        <Text style={styles.category}>{meal.category}</Text>
       </View>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    alignSelf: "center", 
+  },
+  detailsContainer: {
+    flex: 1,
+    justifyContent: "center", 
+    padding: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  category: {
+    color: "#666",
+  },
+});
+
+export default RecipeCard;
