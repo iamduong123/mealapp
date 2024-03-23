@@ -1,7 +1,5 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import { categoryData } from "../constants";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 
 export default function Categories({
   categories,
@@ -9,49 +7,49 @@ export default function Categories({
   handleChangeCategory,
 }) {
   return (
-    <View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="space-x-4"
-        contentContainerStyle={{
-          paddingHorizontal: 15,
-        }}
-      >
-        {categories.map((category, index) => {
-          let isActive = category.strCategory == activeCategory;
-          let activeButtonClass = isActive ? "bg-[#f64e32] " : "bg-black/10";
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingHorizontal: 15,
+      }}
+    >
+      {categories.map((category, index) => {
+        let isActive = category.strCategory === activeCategory;
+        let activeButtonStyle = isActive ? { backgroundColor: "white" } : { backgroundColor: "purple" };
 
-          return (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleChangeCategory(category.strCategory)}
-              className="flex items-center space-y-1"
-            >
-              <View className={"rounded-xl p-[6px] " + activeButtonClass}>
-                <Image
-                  source={{
-                    uri: category.strCategoryThumb,
-                  }}
-                  style={{
-                    width: hp(6),
-                    height: hp(6),
-                  }}
-                  className="rounded-full"
-                />
-              </View>
-              <Text
-                className="text-neutral-800 "
-                style={{
-                  fontSize: hp(1.6),
-                }}
-              >
-                {category.strCategory}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </View>
+        return (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleChangeCategory(category.strCategory)}
+            style={{ alignItems: "center", marginBottom: 10 }}
+          >
+            <View style={[styles.categoryButton, activeButtonStyle]}>
+              <Image
+                source={{ uri: category.strCategoryThumb }}
+                style={styles.categoryImage}
+              />
+            </View>
+            <Text style={styles.categoryText}>{category.strCategory}</Text>
+          </TouchableOpacity>
+        );
+      })}
+    </ScrollView>
   );
 }
+
+const styles = {
+  categoryButton: {
+    borderRadius: 50,
+    padding: 6,
+  },
+  categoryImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 20,
+  },
+  categoryText: {
+    fontSize: 20,
+    color: "#333",
+    marginTop: 5,
+  },
+};

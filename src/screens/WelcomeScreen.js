@@ -1,81 +1,63 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useRef } from "react";
-import { StatusBar } from "expo-status-bar";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { StatusBar, Image, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
-import Animated from "react-native-reanimated";
+
 
 export default function WelcomeScreen() {
   const animation = useRef(null);
   const navigation = useNavigation();
 
   return (
-    <View className="bg-[#f64e32] flex-1 justify-center items-center space-y-10 relative">
+    <View style={{ backgroundColor: "#f64e32", flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
       <Image
-        source={require("../assets/images/background.png")}
+        source={require("../assets/images/foodBG1.jpg")}
         style={{
           position: "absolute",
-          width: wp(100),
-          height: hp(100),
+          width: "100%",
+          height: "100%",
           resizeMode: "cover",
         }}
       />
-
       <StatusBar style="light" />
 
-      {/* Lottie Logo */}
-      <View>
-        <LottieView
-          autoPlay
-          ref={animation}
-          style={{
-            width: wp(40),
-            height: hp(40),
-          }}
-          source={require("../assets/lottie/food-logo.json")}
-        />
-      </View>
-
+      
       {/* Title and Subtitle */}
-      <View className="flex items-center space-y-2">
+      <View style={{ alignItems: "center", marginTop: 20 }}>
         <Text
-          className="text-white font-extrabold tracking-widest"
           style={{
-            fontSize: hp(5),
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 30,
           }}
         >
           Food Cafe
         </Text>
 
         <Text
-          className="text-white tracking-widest font-medium"
           style={{
-            fontSize: hp(2.5),
+            color: "white",
+            fontSize: 18,
           }}
         >
           Explore some delicious Food
         </Text>
       </View>
 
-      <View>
+      <View style={{ marginTop: 20 }}>
         <TouchableOpacity
           style={{
             backgroundColor: "#fff",
-            paddingVertical: hp(1.5),
-            paddingHorizontal: hp(5),
-            borderRadius: hp(1.5),
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            borderRadius: 15,
           }}
           onPress={() => navigation.navigate("Home")}
         >
           <Text
             style={{
               color: "#f64e32",
-              fontSize: hp(2.2),
-              fontWeight: "medium",
+              fontSize: 16,
+              fontWeight: "bold",
             }}
           >
             Get Started

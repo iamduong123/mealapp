@@ -1,71 +1,84 @@
-import React from "react";
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
-import { CATEGORIES } from "../data/dummy-data";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, SafeAreaView, Image, TextInput, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import Categories from "../components/Categories";
+import axios from "axios";
 import Button from "../components/Button";
 
-export default function Home({ navigation, routes }) {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>HOME</Text>
-      </View>
-      <View style={styles.content}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View style={styles.categoryContainer}>
+export default function HomeScreen({ navigation }) {
+  const [activeCategory, setActiveCategory] = useState("Beef");
+  const [categories, setCategories] = useState([]);
 
-            <Button style={styles.category} title={"Favorites"} onPress={() => navigation.navigate('Favorites')}>
-            </Button>
-            {CATEGORIES.map((category) => (
-              <Button key={category.id} style={[styles.category, { backgroundColor: category.color }]} title={category.title} onPress={() => navigation.navigate('Meal List', { data: category.id })}>
-              </Button>
-            ))}
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(
+        "https://www.themealdb.com/api/json/v1/1/categories.php"
+      );
+      if (response && response.data) {
+        setCategories(response.data.categories);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleChangeCategory = (category) => {
+    setActiveCategory(category);
+    navigation.navigate('RecipeList', { category });
+  };
+
+  const navigateToFavoriteScreen = () => {
+    navigation.navigate('Favorite');
+  };
+
+  return (
+    <View style={{ backgroundColor: "#f64e32", flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
+      <Image
+        source={require("../assets/images/background.png")}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          resizeMode: "cover",
+        }}
+      />
+      <StatusBar style="dark" />
+
+      <SafeAreaView>
+        {/* Button to navigate to FavoriteScreen */}
+        
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 50,
+            paddingTop: 20,
+          }}
+        >
+          {/* Headlines */}
+          <View style={{ marginLeft: 20, marginVertical: 30 }}>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#333' }}>Fast & Delicious</Text>
+            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#333' }}>Food You <Text style={{ color: 'purple' }}>Love</Text></Text>
           </View>
 
+          <Button onPress={navigateToFavoriteScreen} />
+          {/* Categories */}
+          <View>
+            {categories.length > 0 && (
+              <Categories
+                categories={categories}
+                activeCategory={activeCategory}
+                handleChangeCategory={handleChangeCategory}
+              />
+            )}
+          </View>
+          
         </ScrollView>
-      </View>
-
+      </SafeAreaView>
     </View>
-
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  headerText: {
-    fontWeight: 'bold',
-    fontSize: 30
-  },
-  content: {
-    flex: 5,
-  },
-  scrollViewContent: {
-    justifyContent: "space-between",
-    alignItems: 'center',
-    padding: 10,
-  },
-
-  categoryContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    padding: 10,
-  },
-  category: {
-    backgroundColor: "#ccc",
-    borderRadius: 5,
-    // paddingHorizontal: '25%',
-    width: '100%',
-    paddingVertical: '25%',
-    marginRight: 5,
-    marginBottom: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-});
