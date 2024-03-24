@@ -47,9 +47,6 @@ export default function RecipeDetailsScreen({ route, navigation }) {
     try {
       // Update the favorite status locally
       setIsFavourite(!isFavourite);
-
-      // Update the favorite status in AsyncStorage or any other storage mechanism
-      // For simplicity, let's assume AsyncStorage
       const storedFavorites = await AsyncStorage.getItem('favorites');
       let favorites = [];
       if (storedFavorites) {

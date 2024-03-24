@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, SafeAreaView, TouchableOpacity, StyleSheet, Image } from "react-native";
 import RecipeCard from "../components/RecipesCard";
-import { MEALS } from "../data/dummy-data"; // Importing the MEALS array
+import { MEALS } from "../data/dummy-data";
 import { useNavigation } from '@react-navigation/native';
 
 export default function RecipeListScreen({ route }) {
