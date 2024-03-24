@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, SafeAreaView, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, SafeAreaView, TouchableOpacity, StyleSheet, Image } from "react-native";
 import RecipeCard from "../components/RecipesCard";
 import { MEALS } from "../data/dummy-data"; // Importing the MEALS array
 import { useNavigation } from '@react-navigation/native';
@@ -25,6 +25,15 @@ export default function RecipeListScreen({ route }) {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/images/avatar.png")}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          resizeMode: "cover",
+        }}
+      />
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}

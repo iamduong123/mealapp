@@ -26,8 +26,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
     };
 
     const loadFavouriteStatus = async () => {
-      // Load the favorite status from AsyncStorage or any other storage mechanism
-      // For simplicity, let's assume AsyncStorage
+
       try {
         const storedFavorites = await AsyncStorage.getItem('favorites');
         if (storedFavorites) {
@@ -78,6 +77,15 @@ export default function RecipeDetailsScreen({ route, navigation }) {
         paddingBottom: 30,
       }}
     >
+      <Image
+        source={require("../assets/images/background.png")}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          resizeMode: "cover",
+        }}
+      />
       <StatusBar style="white" />
 
       <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, paddingTop: 20 }}>

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Categories from "../components/Categories";
-import { CATEGORIES } from "../data/dummy-data"; // Importing the CATEGORIES array
+import { CATEGORIES } from "../data/dummy-data"; 
 import FavoriteButton from "../components/FavoriteButton";
 
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
-  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]); // Initialize with the first category
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]); 
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);

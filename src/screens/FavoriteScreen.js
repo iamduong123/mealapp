@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
 import { CATEGORIES } from '../data/dummy-data';
@@ -54,6 +54,15 @@ export default function Favorites({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/images/background.png")}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          resizeMode: "cover",
+        }}
+      />
       <View style={styles.header}>
         <Text style={styles.headerText}>FAVORITES</Text>
       </View>
