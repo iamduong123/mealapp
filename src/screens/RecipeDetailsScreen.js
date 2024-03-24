@@ -77,7 +77,12 @@ export default function RecipeDetailsScreen({ route, navigation }) {
         paddingBottom: 30,
       }}
     >
-      <Image
+      
+      <StatusBar style="white" />
+
+      <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, paddingTop: 20 }}>
+        {/* Back button */}
+        <Image
         source={require("../assets/images/background.png")}
         style={{
           position: "absolute",
@@ -86,10 +91,6 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           resizeMode: "cover",
         }}
       />
-      <StatusBar style="white" />
-
-      <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, paddingTop: 20 }}>
-        {/* Back button */}
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ChevronLeftIcon size={24} color={"#f64e32"} strokeWidth={2} />
         </TouchableOpacity>
@@ -110,6 +111,15 @@ export default function RecipeDetailsScreen({ route, navigation }) {
       ) : (
         <View style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50, backgroundColor: "white", paddingHorizontal: 20, paddingTop: 20 }}>
           {/* Meal Name */}
+          <Image
+        source={require("../assets/images/background.png")}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          resizeMode: "cover",
+        }}
+      />
           <CustomText style={{ fontSize: 24, fontWeight: "bold", color: "#333" }}>{meal ? meal.title : "Meal not found"}</CustomText>
           {/* Description */}
           <CustomText >Duration: {meal.duration}m</CustomText>

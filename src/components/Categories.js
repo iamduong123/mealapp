@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, ImageBackground, StyleSheet } from "react-native";
+import { CATEGORIES } from "../data/dummy-data";
 
 export default function Categories({
   categories,
@@ -15,7 +16,7 @@ export default function Categories({
     >
       {categories.map((category) => {
         let isActive = category === activeCategory;
-        let activeButtonStyle = isActive ? { backgroundColor: "black" } : { backgroundColor: "purple" };
+        let activeButtonStyle = isActive ? styles.activeCategoryButton : null;
 
         return (
           <TouchableOpacity
@@ -23,13 +24,19 @@ export default function Categories({
             onPress={() => handleChangeCategory(category)}
             style={{ alignItems: "center", marginBottom: 10 }}
           >
-            <View style={[styles.categoryButton, activeButtonStyle]}>
-              <Image
-                source={{ uri: category.image }} // Assuming 'image' property exists in your Category model
-                style={styles.categoryImage}
-              />
+            <ImageBackground
+              source={{ uri: category.image }} l
+              style={[styles.categoryButton, activeButtonStyle]}
+              imageStyle={styles.categoryImage}
+            >
+              <Text style={styles.categoryText}>{category.name}</Text>
+            </ImageBackground>
+            <Text style={styles.additionalText}>{category.title}</Text>
+            <View style={styles.categoriesContainer}>
+              {CATEGORIES.map((cat) => (
+                <Text key={cat.id} style={styles.categoryItem}>{cat.name}</Text>
+              ))}
             </View>
-            <Text style={styles.categoryText}>{category.name}</Text>
           </TouchableOpacity>
         );
       })}
@@ -37,19 +44,46 @@ export default function Categories({
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   categoryButton: {
-    borderRadius: 50,
-    padding: 6,
+    width: "100%",
+    aspectRatio: 2, // Adjust the aspect ratio as needed
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "purple",
+    overflow: "hidden",
+  },
+  activeCategoryButton: {
+    backgroundColor: "black",
   },
   categoryImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 20,
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
   },
   categoryText: {
+    fontSize: 20,
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  additionalText: {
     fontSize: 20,
     color: "#333",
     marginTop: 5,
   },
-};
+  categoriesContainer: {
+    marginTop: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  categoryItem: {
+    marginHorizontal: 5,
+    marginBottom: 5,
+    padding: 5,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 5,
+  },
+});
