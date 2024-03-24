@@ -80,7 +80,8 @@ export default function Favorites({ navigation }) {
                     imageStyle={{ borderRadius: 10 }}
                   >
                     <View style={styles.overlay} />
-                    <FavoriteButton onPress={() => navigation.navigate('RecipeDetails', { mealId: meal.id })} text={meal.title} />
+                    <FavoriteButton onPress={() => navigation.navigate('RecipeDetails', { mealId: meal.id })}
+                     text={meal.title} />
                     <View style={styles.category}>
                       <View style={styles.cat}>
                         {meal.categoryIds.map((categoryId) => {

@@ -77,7 +77,8 @@ export default function RecipeDetailsScreen({ route, navigation }) {
       
       <StatusBar style="white" />
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, paddingTop: 20 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between",
+       paddingHorizontal: 20, paddingTop: 20 }}>
         {/* Back button */}
         <Image
         source={require("../assets/images/background.png")}
@@ -106,7 +107,8 @@ export default function RecipeDetailsScreen({ route, navigation }) {
       {isLoading ? (
         <Loading size="large" style={{ marginTop: 150 }} />
       ) : (
-        <View style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50, backgroundColor: "white", paddingHorizontal: 20, paddingTop: 20 }}>
+        <View style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50,
+         backgroundColor: "white", paddingHorizontal: 20, paddingTop: 20 }}>
           {/* Meal Name */}
           <Image
         source={require("../assets/images/background.png")}
@@ -127,19 +129,23 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           <CustomText >Is it lactose free?: {meal.isLactoseFree ? "Yes" : "No"}</CustomText>
 
           {/* Ingredients */}
-          <CustomText style={{ fontSize: 20, fontWeight: "bold", color: "#333", marginTop: 20 }}>Ingredients</CustomText>
+          <CustomText style={{ fontSize: 20, fontWeight: "bold", 
+          color: "#333", marginTop: 20 }}>Ingredients</CustomText>
           <View style={{ marginTop: 10 }}>
             {meal.ingredients.map((ingredient, index) => (
               <View key={index} style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: "#f64e32", marginRight: 10 }} />
+                <View style={{ width: 8, height: 8, borderRadius: 4, 
+                  backgroundColor: "#f64e32", marginRight: 10 }} />
                 <CustomText style={{ fontSize: 16, color: "#666" }}>{ingredient}</CustomText>
               </View>
             ))}
           </View>
 
           {/* Instructions */}
-          <CustomText style={{ fontSize: 20, fontWeight: "bold", color: "#333", marginTop: 20 }}>Instructions</CustomText>
-          <CustomText style={{ fontSize: 16, color: "#666", marginTop: 10 }}>{meal ? meal.steps : "Instructions not found"}</CustomText>
+          <CustomText style={{ fontSize: 20, fontWeight: "bold", 
+          color: "#333", marginTop: 20 }}>Instructions</CustomText>
+          <CustomText style={{ fontSize: 16, color: "#666", 
+          marginTop: 10 }}>{meal ? meal.steps : "Instructions not found"}</CustomText>
         </View>
       )}
     </ScrollView>

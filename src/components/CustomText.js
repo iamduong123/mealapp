@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Roboto", // You can replace "Roboto" with your preferred font family
     fontSize: 16,
-    color: "#333", // Default color
+    color: "#333", 
   },
 });
 
