@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 
-export default function FavoriteButton({ onPress }) {
+export default function FavoriteButton({ onPress, text }) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -15,7 +15,7 @@ export default function FavoriteButton({ onPress }) {
         marginVertical: 20,
       }}
     >
-      <Text style={{ color: "white", fontSize: 16 }}>Go to Favorites</Text>
+      <Text style={{ color: "white", fontSize: 16 }}>{text}</Text>
     </TouchableOpacity>
   );
 }

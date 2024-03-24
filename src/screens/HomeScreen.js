@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Categories from "../components/Categories";
-import { CATEGORIES } from "../data/dummy-data"; 
+import { CATEGORIES } from "../data/dummy-data";
 import FavoriteButton from "../components/FavoriteButton";
 
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
-  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]); 
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]);
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
@@ -28,7 +28,11 @@ const HomeScreen = ({ navigation }) => {
       <StatusBar style="dark" />
 
       {/* FavoriteButton to navigate to FavoriteScreen */}
-        <FavoriteButton onPress={navigateToFavoriteScreen} style={styles.FavoriteButtonContainer}>Go to Favorites</FavoriteButton>
+      <FavoriteButton
+        onPress={navigateToFavoriteScreen}
+        style={styles.favoriteButtonContainer}
+        text="Go to Favorites"
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
@@ -59,8 +63,8 @@ const styles = StyleSheet.create({
     padding: 20
   },
   FavoriteButtonContainer: {
-    width: '100%', 
-    
+    width: '100%',
+
   },
   backgroundImage: {
     position: "absolute",
