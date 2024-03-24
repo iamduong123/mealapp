@@ -6,6 +6,7 @@ import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
 import Loading from "../components/Loading";
 import CustomText from "../components/CustomText";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RecipeDetailsScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -68,6 +69,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
       console.error('Error toggling favorite:', error);
     }
   };
+
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: "white", marginTop: 20 }}

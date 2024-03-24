@@ -1,91 +1,156 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
 import { CATEGORIES } from '../data/dummy-data';
 
-const FavoriteScreen = ({ navigation }) => {
+export default function Favorites({ navigation }) {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    // Load favorites from AsyncStorage or other storage mechanism
-    // For simplicity, we'll use a dummy data for demonstration purposes
-    // Replace this with your actual implementation to load favorites
-    const storedFavorites = [
-      {
-        id: '1',
-        title: 'Favorite Meal 1',
-        categoryIds: ['c1'],
-        isFavorite: true,
-      },
-      {
-        id: '2',
-        title: 'Favorite Meal 2',
-        categoryIds: ['c2'],
-        isFavorite: true,
-      },
-    ];
-    setFavorites(storedFavorites);
+    async function loadFavorites() {
+      try {
+        const storedFavorites = await AsyncStorage.getItem('favorites');
+        if (storedFavorites) {
+          setFavorites(JSON.parse(storedFavorites));
+        }
+      } catch (error) {
+        console.error('Error loading favorites:', error);
+      }
+    }
+
+    loadFavorites();
   }, []);
 
-  const toggleFavorite = (mealId) => {
-    // Toggle favorite status for the selected meal
-    const updatedFavorites = favorites.map((meal) =>
-      meal.id === mealId ? { ...meal, isFavorite: !meal.isFavorite } : meal
-    );
-    setFavorites(updatedFavorites);
-
-    // Save updated favorites to AsyncStorage or other storage mechanism
-    // For simplicity, we'll not implement saving favorites in this example
+  const toggleFavorite = async (meal) => {
+    try {
+      const updatedFavorites = [...favorites];
+      const index = updatedFavorites.findIndex((favMeal) => favMeal.id === meal.id);
+      if (index !== -1) {
+        updatedFavorites.splice(index, 1);
+      } 
+      setFavorites(updatedFavorites);
+      await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
   };
+
+  if (favorites.length === 0) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text>Seems like you have not found anything interesting yet!</Text>
+          <TouchableOpacity
+            style={[styles.favoriteButton, { backgroundColor: 'grey', borderRadius: 10, padding: 10 }]}
+            onPress={() => navigation.navigate('Home')}
+          >
+            <Text style={styles.buttonText}>Back to Home</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Favorites</Text>
-      <ScrollView>
-        {favorites.map((meal) => (
-          <TouchableOpacity
-            key={meal.id}
-            style={styles.mealContainer}
-            onPress={() => navigation.navigate('Meal Details', { mealId: meal.id })}
-          >
-            <Text>{meal.title}</Text>
-            <View style={styles.favoriteIcon}>
-              <Entypo
-                name={meal.isFavorite ? 'heart' : 'heart-outlined'}
-                size={24}
-                color={meal.isFavorite ? 'red' : 'black'}
-                onPress={() => toggleFavorite(meal.id)}
-              />
+      <View style={styles.header}>
+        <Text style={styles.headerText}>FAVORITES</Text>
+      </View>
+      <View style={styles.content}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {favorites.map((meal) => (
+            <View key={meal.id} style={styles.mealContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Meal Details', { data: meal })}
+                style={styles.favoriteButton}
+              >
+                <Text>{meal.title}</Text>
+              </TouchableOpacity>
+              <View style={styles.category}>
+                <View style={styles.cat}>
+                  {meal.categoryIds.map((categoryId) => {
+                    const category = CATEGORIES.find(cat => cat.id === categoryId);
+                    if (!category) return null;
+
+                    return (
+                      <TouchableOpacity
+                        key={category.id}
+                        style={[styles.categoryContainer, { backgroundColor: category.color }]}
+                        onPress={() => navigation.navigate('Meal List', { data: category.id })}
+                      >
+                        <Text>{category.title}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                <TouchableOpacity
+                  style={styles.favoriteButton}
+                  onPress={() => toggleFavorite(meal)}
+                >
+                  <Entypo name={'heart'} size={24} color={'red'} />
+                </TouchableOpacity>
+              </View>
             </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollViewContent: {
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     padding: 10,
   },
   header: {
-    fontSize: 24,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
     fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: 30,
+  },
+  content: {
+    flex: 3,
   },
   mealContainer: {
+    width: '100%',
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 3,
+    padding: 10,
+  },
+  favoriteButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    paddingVertical: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  cat: {
+    borderRadius: 10,
+  },
+  category: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#eee',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
   },
-  favoriteIcon: {
+  categoryContainer: {
+    borderRadius: 20,
+    marginVertical: 10,
     padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
-
-export default FavoriteScreen;

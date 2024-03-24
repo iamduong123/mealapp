@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 
-export default function Button({ onPress }) {
+export default function FavoriteButton({ onPress }) {
   return (
     <TouchableOpacity
       onPress={onPress}
