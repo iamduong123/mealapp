@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Loading(props) {
   return (
-    <View className="flex-1 justify-center items-center">
+    <View>
       <ActivityIndicator {...props} />
     </View>
   );
