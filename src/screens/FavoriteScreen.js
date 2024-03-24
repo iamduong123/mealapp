@@ -28,7 +28,7 @@ export default function Favorites({ navigation }) {
       const index = updatedFavorites.findIndex((favMeal) => favMeal.id === meal.id);
       if (index !== -1) {
         updatedFavorites.splice(index, 1);
-      } 
+      }
       setFavorites(updatedFavorites);
       await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     } catch (error) {
@@ -39,6 +39,15 @@ export default function Favorites({ navigation }) {
   if (favorites.length === 0) {
     return (
       <View style={styles.container}>
+        <Image
+          source={require("../assets/images/background.png")}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            resizeMode: "cover",
+          }}
+        />
         <View style={styles.header}>
           <Text>Seems like you have not found anything interesting yet!</Text>
           <TouchableOpacity
@@ -71,7 +80,7 @@ export default function Favorites({ navigation }) {
           {favorites.map((meal) => (
             <View key={meal.id} style={styles.mealContainer}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Meal Details', { data: meal })}
+                onPress={() => navigation.navigate('RecipeDetails', { mealId: meal.id })}
                 style={styles.favoriteButton}
               >
                 <Text>{meal.title}</Text>
@@ -86,13 +95,14 @@ export default function Favorites({ navigation }) {
                       <TouchableOpacity
                         key={category.id}
                         style={[styles.categoryContainer, { backgroundColor: category.color }]}
-                        onPress={() => navigation.navigate('Meal List', { data: category.id })}
+                        onPress={() => navigation.navigate('RecipeList', { category })}
                       >
                         <Text>{category.title}</Text>
                       </TouchableOpacity>
                     );
                   })}
                 </View>
+
                 <TouchableOpacity
                   style={styles.favoriteButton}
                   onPress={() => toggleFavorite(meal)}
@@ -142,6 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     paddingVertical: 10,
+    flexDirection: 'row', // Align icon horizontally
   },
   buttonText: {
     color: 'white',
